@@ -2,6 +2,7 @@ name: build_and_test
 
 env:
   CONAN_REFERENCE: "darwin-toolchain/1.0.8"
+  CONAN_USERNAME: "conan-burrito"
   CONAN_UPLOAD: "https://api.bintray.com/conan/conan-burrito/main"
   CONAN_STABLE_BRANCH_PATTERN: "release/*"
 
