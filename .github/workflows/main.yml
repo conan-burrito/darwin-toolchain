@@ -1,0 +1,32 @@
+name: build_and_test
+
+on: [push, pull_request]
+
+jobs:
+    windows:
+        runs-on: windows-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: install conan
+          run:  pip install conan
+
+    mac:
+        runs-on: macos-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: install conan
+          run:  pip install conan
+
+    ios:
+        runs-on: macos-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: install conan
+          run:  pip install conan
+
+    linux:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: install conan
+          run:  pip install conan
