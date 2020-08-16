@@ -1,32 +1,31 @@
 name: build_and_test
 
-on: [push, pull_request]
+env:
+  CONAN_REFERENCE: "darwin-toolchain/1.0.8"
+  CONAN_CHANNEL: "testing"
+  CONAN_UPLOAD: "https://api.bintray.com/conan/conan-burrito/main"
+  CONAN_STABLE_BRANCH_PATTERN: "release/*"
+
+on:
+  push:
+    branches:
+      - "release/**"
 
 jobs:
-    windows:
-        runs-on: windows-latest
-        steps:
-        - uses: actions/checkout@v1
-        - name: install conan
-          run:  pip install conan
+  build:
+    name: build-all
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install conan
+        run:  pip install conan conan_package_tools
+      - name: Build
+        run: python .ci/build-${{ matrix.os }}.py
 
-    mac:
-        runs-on: macos-latest
-        steps:
-        - uses: actions/checkout@v1
-        - name: install conan
-          run:  pip install conan
-
-    ios:
-        runs-on: macos-latest
-        steps:
-        - uses: actions/checkout@v1
-        - name: install conan
-          run:  pip install conan
-
-    linux:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v1
-        - name: install conan
-          run:  pip install conan
