@@ -1,5 +1,6 @@
 from conans import ConanFile, tools
 from conans.errors import ConanInvalidConfiguration
+from conans.tools import Version
 
 import os
 import copy
@@ -94,6 +95,11 @@ class DarwinToolchainConan(ConanFile):
             self.env_info.CONAN_CMAKE_HIDDEN_VISIBILITY = 'YES'
         else:
             self.env_info.CONAN_CMAKE_HIDDEN_VISIBILITY = 'NO'
+
+        # https://forum.juce.com/t/error-building-ios-for-device-in-release-mode/28595/5
+        # https://github.com/facebook/rocksdb/issues/4064
+        if self.settings.os == 'iOS' and Version(self.settings.os.version) < Version(11):
+            common_flags.append('-fno-aligned-allocation')
 
         # CMake issue, for details look https://github.com/conan-io/conan/issues/2378
         cflags = copy.copy(common_flags)
