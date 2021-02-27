@@ -9,7 +9,6 @@ import copy
 # Adapted from https://github.com/theodelrieu/conan-darwin-toolchain 1.0.8
 class DarwinToolchainConan(ConanFile):
     name = "darwin-toolchain"
-    version = "1.0.8"
     license = "Apple"
     settings = 'os', 'arch', 'build_type', 'os_build', 'compiler'
     options = {'bitcode': [True, False], 'with_arc': [True, False], 'hidden_visibility': [True, False]}
@@ -73,7 +72,9 @@ class DarwinToolchainConan(ConanFile):
         common_flags = ["-isysroot%s" % sysroot]
 
         if self.settings.get_safe("os.version"):
-            common_flags.append(tools.apple_deployment_target_flag(self.settings.os, self.settings.os.version))
+            sdk = self.settings.get_safe('os.sdk')
+            subsystem = self.settings.get_safe('os.subsystem')
+            common_flags.append(tools.apple_deployment_target_flag(self.settings.os, self.settings.os.version, sdk, subsystem, self.settings.arch))
 
         if self.settings.os != "Macos":
             if self.options.bitcode:
