@@ -74,15 +74,16 @@ class DarwinToolchainConan(ConanFile):
         if self.settings.get_safe("os.version"):
             sdk = self.settings.get_safe('os.sdk')
             subsystem = self.settings.get_safe('os.subsystem')
-            common_flags.append(tools.apple_deployment_target_flag(self.settings.os, self.settings.os.version, sdk, subsystem, self.settings.arch))
+            common_flags.append(
+                tools.apple_deployment_target_flag(self.settings.os, os_version=self.settings.os.version, os_sdk=sdk,
+                                                   os_subsystem=subsystem, arch=self.settings.arch))
 
-        if self.settings.os != "Macos":
-            if self.options.bitcode:
-                if self.settings.build_type == "Debug":
-                    bitcode_flag = "-fembed-bitcode-marker"
-                else:
-                    bitcode_flag = "-fembed-bitcode"
-                common_flags.append(bitcode_flag)
+        if self.settings.os != "Macos" and self.options.bitcode:
+            if self.settings.build_type == "Debug":
+                bitcode_flag = "-fembed-bitcode-marker"
+            else:
+                bitcode_flag = "-fembed-bitcode"
+            common_flags.append(bitcode_flag)
 
         if self.options.with_arc:
             common_flags.append('-fobjc-arc')
