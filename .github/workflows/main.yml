@@ -3,8 +3,8 @@ name: build_and_test
 env:
   CONAN_REFERENCE: "darwin-toolchain/1.0.10"
   CONAN_USERNAME: "conan-burrito"
-  CONAN_UPLOAD: "https://conan.yobasoft.de"
   CONAN_STABLE_BRANCH_PATTERN: "release/*"
+  CONAN_UPLOAD: "${{ secrets.CONAN_UPLOAD }}"
   CONAN_LOGIN_USERNAME: "${{ secrets.CONAN_LOGIN_USERNAME }}"
   CONAN_PASSWORD: "${{ secrets.CONAN_PASSWORD }}"
   BINTRAY_USER: "${{ secrets.BINTRAY_USER }}"
